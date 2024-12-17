@@ -21,7 +21,8 @@ async def cmd_start(message: Message):
 
 @router.message(Command('help'))
 async def cmd_help(message: Message):
-    await message.answer("Вы нажали кнопку помощи")
+    await message.answer(f'{message.from_user.first_name}, вам нужна помощь?')
+    await message.answer(f'Ваш ID: {message.from_user.id}')
 
 @router.message(F.text == "Каталог")
 async def catalog(message: Message):
@@ -57,11 +58,9 @@ async def register_age(message: Message, state: FSMContext):
 async def register_number(message: Message, state: FSMContext):
     await state.update_data(number=message.contact.phone_number)
     data = await state.get_data()
-    await message.answer(f'Ваше имя: {data["name"]}\nВаш возраст: {data["age"]}\nНомер: {data["number"]}')
+    await message.answer(f'Ваше имя: {data["name"]}\nВаш возраст: {data["age"]}\nНомер: {data["number"]}',
+                         reply_markup=kb.main)
     await state.clear()
-
-
-
 
 
 
